@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -39,6 +41,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -82,9 +85,10 @@ fun MyTextFiledComponent(labelValue: String, painterResource: Painter) {
         mutableStateOf("")
     }
 
-    OutlinedTextField(modifier = Modifier
-        .fillMaxWidth()
-        .background(Color.Transparent),
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Transparent),
         shape = RoundedCornerShape(4.dp),
         label = { Text(text = labelValue) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -92,7 +96,9 @@ fun MyTextFiledComponent(labelValue: String, painterResource: Painter) {
             focusedLabelColor = PurpleGrey40,
             cursorColor = colorResource(id = R.color.black)
         ),
-        keyboardOptions = KeyboardOptions.Default,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        singleLine = true,
+        maxLines = 1,
         value = textValue.value,
         onValueChange = {
             textValue.value = it
@@ -111,6 +117,7 @@ fun MyTextFiledComponent(labelValue: String, painterResource: Painter) {
 @Composable
 fun MyPasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
 
+    val localFocusManager = LocalFocusManager.current
     val password = rememberSaveable {
         mutableStateOf("")
     }
@@ -130,6 +137,11 @@ fun MyPasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
             cursorColor = colorResource(id = R.color.black)
         ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        singleLine = true,
+        maxLines = 1,
+        keyboardActions = KeyboardActions {
+            localFocusManager.clearFocus()
+        },
         value = password.value,
         onValueChange = {
             password.value = it
@@ -166,7 +178,7 @@ fun MyPasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
 }
 
 @Composable
-fun CheckboxComponent(value: String, onTextSelected: (String) -> Unit) {
+fun CheckboxComponent(onTextSelected: (String) -> Unit) {
 
     Row(
         modifier = Modifier
@@ -183,12 +195,12 @@ fun CheckboxComponent(value: String, onTextSelected: (String) -> Unit) {
             checkedState.value != checkedState.value
         })
 
-        ClickableTextComponent(value = value, onTextSelected)
+        ClickableTextComponent(onTextSelected)
     }
 }
 
 @Composable
-fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
+fun ClickableTextComponent(onTextSelected: (String) -> Unit) {
 
     val initialText = "By continuing you accept our "
     val privacyPolicyText = "Privacy Policy "
@@ -320,5 +332,20 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
                 }
 
         },
+    )
+}
+
+@Composable
+fun UnderLinedTextComponent(value: String) {
+
+    Text(
+        text = value,
+        modifier = Modifier.fillMaxWidth(),
+        style = TextStyle(
+            fontSize = 16.sp, fontWeight = FontWeight.Normal, fontStyle = FontStyle.Normal
+        ),
+        color = colorResource(id = R.color.colorGray),
+        textAlign = TextAlign.End,
+        textDecoration = TextDecoration.Underline
     )
 }
