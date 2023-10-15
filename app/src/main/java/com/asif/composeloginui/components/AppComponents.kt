@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -336,16 +337,22 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
 }
 
 @Composable
-fun UnderLinedTextComponent(value: String) {
+fun UnderLinedTextComponent(value: String, onForgetPassword: () -> Unit) {
 
-    Text(
-        text = value,
+    ClickableText(
         modifier = Modifier.fillMaxWidth(),
         style = TextStyle(
-            fontSize = 16.sp, fontWeight = FontWeight.Normal, fontStyle = FontStyle.Normal
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
+            fontStyle = FontStyle.Normal,
+            textAlign = TextAlign.End,
+            color = colorResource(id = R.color.colorGray),
+            textDecoration = TextDecoration.Underline
         ),
-        color = colorResource(id = R.color.colorGray),
-        textAlign = TextAlign.End,
-        textDecoration = TextDecoration.Underline
+        text = AnnotatedString(value),
+        onClick = {
+            onForgetPassword.invoke()
+        },
     )
+
 }

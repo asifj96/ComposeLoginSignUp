@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.asif.composeloginui.navigation.PostOfficeAppRouter
 import com.asif.composeloginui.navigation.Screen
+import com.asif.composeloginui.screens.ForgotPasswordScreen
 import com.asif.composeloginui.screens.LoginScreen
 import com.asif.composeloginui.screens.SignUpScreen
 import com.asif.composeloginui.screens.TermsAndConditionsScreen
@@ -25,11 +26,17 @@ fun PostOfficeApp() {
                 is Screen.SignUpScreen -> {
                     SignUpScreen()
                 }
+
                 is Screen.TermsAndConditionsScreen -> {
                     TermsAndConditionsScreen()
                 }
-                is Screen.LoginScreen ->{
+
+                is Screen.LoginScreen -> {
                     LoginScreen()
+                }
+
+                is Screen.ForgetPasswordScreen -> {
+                    ForgotPasswordScreen()
                 }
             }
         }

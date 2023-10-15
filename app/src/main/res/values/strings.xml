@@ -13,6 +13,8 @@
     <string name="terms_use">Term of Use</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="title_forget_password">Forgot Password</string>
+    <string name="forget">Forgot</string>
     <string name="or">Or</string>
     <string name="forgot_password">Forgot your password</string>
 </resources>
